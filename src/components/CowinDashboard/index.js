@@ -21,12 +21,25 @@ class CowinDashboard extends Component {
   }
 
   getDetails = () => {
-    this.setState({apiStatus: apiStatusConstants.inProgress})
+    this.setState({apiStatus: apiStatusConstants.failure})
   }
 
   renderLoaderView = () => (
     <div data-testid="loader" className="loader-container">
       <Loader type="ThreeDots" color="#ffffff" height={80} width={80} />
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div className="failure-view-container">
+      <div className="failure-img-container">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/api-failure-view.png"
+          alt="failure view"
+          className="failure-img"
+        />
+      </div>
+      <h1 className="failure-heading">Something went wrong</h1>
     </div>
   )
 
