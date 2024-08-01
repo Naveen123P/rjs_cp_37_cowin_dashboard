@@ -1,6 +1,9 @@
 // Write your code here
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
+import VaccinationByAge from '../VaccinationByAge'
+import VaccinationByGender from '../VaccinationByGender'
+import VaccinationCoverage from '../VaccinationCoverage'
 import './index.css'
 
 const apiStatusConstants = {
@@ -20,8 +23,24 @@ class CowinDashboard extends Component {
     this.getDetails()
   }
 
-  getDetails = () => {
-    this.setState({apiStatus: apiStatusConstants.failure})
+  getDetails = async () => {
+    this.setState({apiStatus: apiStatusConstants.inProgress})
+    const apiUrl = 'https://apis.ccbp.in/covid-vaccination-data'
+    const options = {
+      method: 'GET',
+    }
+    const response = await fetch(apiUrl, options)
+    const data = await response.json()
+    const updatedData = {
+      last7DaysVaccination: data.last_7_days_vaccination,
+      vaccinationByAge: data.vaccination_by_age,
+      vaccinationByGender: data.vaccination_by_gender,
+    }
+    if (response.ok) {
+      this.setState({data: updatedData, apiStatus: apiStatusConstants.success})
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
+    }
   }
 
   renderLoaderView = () => (
@@ -29,6 +48,18 @@ class CowinDashboard extends Component {
       <Loader type="ThreeDots" color="#ffffff" height={80} width={80} />
     </div>
   )
+
+  renderSuccessView = () => {
+    const {data} = this.state
+    const {last7DaysVaccination, vaccinationByAge, vaccinationByGender} = data
+    return (
+      <div className="recharts-container">
+        <VaccinationCoverage data={last7DaysVaccination} />
+        <VaccinationByGender data={vaccinationByGender} />
+        <VaccinationByAge data={vaccinationByAge} />
+      </div>
+    )
+  }
 
   renderFailureView = () => (
     <div className="failure-view-container">
