@@ -5,10 +5,9 @@ import '../CowinDashboard/index.css'
 
 const VaccinationByAge = props => {
   const {data} = props
-  console.log(data)
   return (
     <div className="rechart-container">
-      <h1 className="heading">Vaccination By Age</h1>
+      <h1 className="heading">Vaccination by Age</h1>
       <ResponsiveContainer width="100%" height={600}>
         <PieChart>
           <Pie

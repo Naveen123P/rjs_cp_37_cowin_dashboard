@@ -18,7 +18,7 @@ const VaccinationCoverage = props => {
     dose1: eachDay.dose_1,
     dose2: eachDay.dose_2,
   }))
-  console.log(updatedData)
+  //   console.log(updatedData)
   const DataFormatted = number => {
     if (number > 1000) {
       return `${(number / 1000).toString()}k`
